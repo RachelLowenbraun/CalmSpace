@@ -1,0 +1,55 @@
+{
+  "expo": {
+    "name": "PTSD Shield",
+    "slug": "ptsd-shield",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "dark",
+    "newArchEnabled": false,
+    "splash": {
+      "image": "./assets/splash-icon.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#0a0f1e"
+    },
+    "ios": {
+      "supportsTablet": false,
+      "bundleIdentifier": "com.ptsdshield.app",
+      "infoPlist": {
+        "NSMicrophoneUsageDescription": "PTSD Shield requires microphone access to detect environmental trigger sounds in real time.",
+        "UIBackgroundModes": ["audio"]
+      }
+    },
+    "android": {
+      "package": "com.ptsdshield.app",
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#0a0f1e"
+      },
+      "permissions": [
+        "android.permission.RECORD_AUDIO",
+        "android.permission.FOREGROUND_SERVICE",
+        "android.permission.FOREGROUND_SERVICE_MICROPHONE"
+      ]
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
+    "plugins": [
+      "expo-router",
+      "expo-av",
+      [
+        "expo-secure-store",
+        {
+          "faceIDPermission": "Allow PTSD Shield to access Face ID for secure sign-in."
+        }
+      ]
+    ],
+    "scheme": "ptsdshield",
+    "extra": {
+      "eas": {
+        "projectId": "your-eas-project-id"
+      }
+    }
+  }
+}
