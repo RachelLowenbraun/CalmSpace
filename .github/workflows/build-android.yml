@@ -28,17 +28,26 @@ jobs:
       - name: Install EAS CLI
         run: npm install -g eas-cli
 
-      - name: Build Android APK
+      - name: Build Android APK (EAS cloud)
+        id: eas_build
         env:
           EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
           EXPO_PUBLIC_SUPABASE_URL: ${{ secrets.EXPO_PUBLIC_SUPABASE_URL }}
           EXPO_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.EXPO_PUBLIC_SUPABASE_ANON_KEY }}
         run: |
-          eas build \
+          # Run cloud build and capture JSON output (includes artifact download URL)
+          BUILD_JSON=$(eas build \
             --platform android \
             --profile preview \
             --non-interactive \
-            --output ./ptsd-shield.apk
+            --json \
+            --wait)
+          echo "$BUILD_JSON"
+          ARTIFACT_URL=$(echo "$BUILD_JSON" | jq -r '.[0].artifacts.buildUrl')
+          echo "artifact_url=$ARTIFACT_URL" >> $GITHUB_OUTPUT
+
+      - name: Download APK from EAS
+        run: curl -L -o ptsd-shield.apk "${{ steps.eas_build.outputs.artifact_url }}"
 
       - name: Get short SHA
         id: sha
